@@ -84,7 +84,7 @@ use App\Modules\Currency\Services\CurrencyConverter;
 
 $converter = new CurrencyConverter();
 
-$amountInRub = $converter->convert(100, 'USD', 'EUR');
+$amountInEur = $converter->convert(100, 'USD', 'EUR');
 ```
 
 - Сервис использует **только валюты, зарегистрированные через админку**.

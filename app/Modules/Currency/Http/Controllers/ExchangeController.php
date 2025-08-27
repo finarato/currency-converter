@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modules\Currency\Models\Currency;
 use App\Modules\Currency\Models\ExchangeRate;
-use Carbon\Carbon;
+use App\Modules\Currency\Services\CurrencyConverter;
 
 class ExchangeController extends Controller
 {
@@ -30,16 +30,10 @@ class ExchangeController extends Controller
             'to' => 'required|string|size:3',
         ]);
 
-        $rate = ExchangeRate::whereDate('date', Carbon::today()->toDateString())
-            ->where('currency_from', $request->from)
-            ->where('currency_to', $request->to)
-            ->first();
 
-        if (!$rate) {
-            return back()->with('error', 'Курс для выбранных валют не найден');
-        }
 
-        $converted = $request->amount * $rate->rate;
+        $converter = new CurrencyConverter();
+        $converted = $converter->convert($request->amount, $request->from, $request->to);
 
         $currencies = Currency::all();
         return view('currency::exchange.converter', [

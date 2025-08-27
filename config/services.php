@@ -37,6 +37,7 @@ return [
 
     'currency_api' => [
         'key' => env('CURRENCY_API_KEY'),
+        'cert' => env('CURRENCY_CERT_PATH'),
     ]
 
 ];
